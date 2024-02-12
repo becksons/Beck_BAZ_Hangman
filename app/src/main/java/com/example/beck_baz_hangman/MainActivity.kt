@@ -2,6 +2,7 @@ package com.example.beck_baz_hangman
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 
 
@@ -38,7 +39,7 @@ class HangmanGame {
 
 
         fun isGameOver(): Boolean {
-            return incorrectGuesses >= 6
+            return incorrectGuesses > 6
         }
     }
 }
@@ -46,7 +47,7 @@ class HangmanGame {
 
 class MainActivity : AppCompatActivity() {
     private lateinit var hangmanImageView: ImageView
-    private lateinit var btnIncorrectGuess: ImageView
+    private lateinit var btnIncorrectGuess: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
