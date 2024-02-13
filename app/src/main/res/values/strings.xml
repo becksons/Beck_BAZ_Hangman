@@ -2,4 +2,7 @@
     <string name="app_name">Beck_BAZ_Hangman</string>
     <string name="wrong_guess">Wrong Guess</string>
     <string name="todo">TODO</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hintButton">Hint</string>
+    <string name="hintText">Show Hint</string>
 </resources>
