@@ -18,19 +18,22 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.078"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.789">
+            app:layout_constraintVertical_bias="1">
 
             <Button
                 android:id="@+id/hintButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="bottom"
                 android:layout_weight="1"
+                android:scaleX=".5"
+                android:scaleY=".5"
                 android:text="@string/hintButton"
                 android:textSize="30sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/hintText"
@@ -40,7 +43,7 @@
                 android:text="@string/hintText"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </LinearLayout>
 

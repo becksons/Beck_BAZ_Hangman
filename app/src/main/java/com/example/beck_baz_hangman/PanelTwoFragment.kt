@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.beck_baz_hangman.MainActivity.Companion.disable_half
+import com.example.beck_baz_hangman.MainActivity.Companion.disable_vowels
+import com.example.beck_baz_hangman.MainActivity.Companion.show_vowels
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,22 +51,22 @@ class PanelTwoFragment : Fragment() {
 
         val button: Button = view.findViewById(R.id.hintButton)
         val textView: TextView = view.findViewById(R.id.hintText)
+        textView.setText(MainActivity.hint_bank[MainActivity.current_word])
 
-        button.setOnClickListener {
+        button.setOnClickListener {_ ->
             buttonCount += 1
-
-            if (turn == 1){
-                val zero = Toast.makeText(this, "Hint not available", Toast.LENGTH_SHORT)
+            if (MainActivity.lives == 1){
+                val zero = Toast.makeText(requireContext(), "Hint not available", Toast.LENGTH_SHORT)
                 zero.show()
             } else if (buttonCount == 1) {
                 textView.visibility = View.VISIBLE
             } else if (buttonCount == 2) {
-                //disables half the remaining letters
-                //turn -= 1
+                disable_half = true
+                MainActivity.lives -= 1
             } else if (buttonCount == 3) {
-                //Show all vowels
-                //disables the vowel buttons
-                //turn -= 1
+                show_vowels = true
+                disable_vowels = true
+                MainActivity.lives -= 1
             }
         }
     }

@@ -6,25 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 class HangmanFragment : Fragment() {
     private lateinit var hangmanImageView: ImageView
     private lateinit var btnIncorrectGuess: Button
-    private var incorrectGuesses = 0
+    private var fragmentView: View? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.hangman_visual, container, false)
+        fragmentView = view
 
         hangmanImageView = view.findViewById(R.id.hangmanImageView)
-        btnIncorrectGuess = view.findViewById(R.id.btnIncorrectGuess)
-
-        btnIncorrectGuess.setOnClickListener {
-            handleWrongGuess()
-        }
+//        btnIncorrectGuess = view.findViewById(R.id.btnIncorrectGuess)
+//
+//        btnIncorrectGuess.setOnClickListener {
+//            handleWrongGuess()
+//        }
 
         if (savedInstanceState != null) {
-            incorrectGuesses = savedInstanceState.getInt("incorrectGuesses", 0)
             updateImage()
         }
 
@@ -33,55 +35,81 @@ class HangmanFragment : Fragment() {
 
 
     private fun updateImage() {
+        hangmanImageView.setImageResource(android.R.color.transparent)
+
         hangmanImageView.setImageResource(getImageResource())
+
+
+
     }
 
 //Asked chatGPT what method to save the state of my fragment if the phone changes layout, back button is hit, etc..
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        outState.putInt("incorrectGuesses", incorrectGuesses)
     }
 
-    private fun handleWrongGuess() {
-        onWrongGuess()
+
+     fun handleCorrectGuess(){
+        fragmentView?.let { view ->
+            val wordIndex: MutableList<Int> = MainActivity.textViewIndices
+            val currentWord = MainActivity.word_bank[MainActivity.current_word].toCharArray()
+
+            for(charIdx in currentWord.indices){
+                if (charIdx in wordIndex) {
+                    val char: Char = currentWord[charIdx]
+
+                    println(charIdx)
+
+                    when(charIdx) {
+                        0 -> {
+                            view.findViewById<TextView>(R.id.LetterOne).setText(char.toString())
+                        }
+                        1 -> {
+                            view.findViewById<TextView>(R.id.LetterTwo).setText(char.toString())
+                        }
+                        2 -> {
+                            view.findViewById<TextView>(R.id.LetterThree).setText(char.toString())
+                        }
+                        3 -> {
+                            view.findViewById<TextView>(R.id.LetterFour).setText(char.toString())
+                        }
+                        4 -> {
+                            view.findViewById<TextView>(R.id.LetterFive).setText(char.toString())
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun handleWrongGuess() {
+        println(MainActivity.lives)
+        MainActivity.lives -= 1
         updateImage()
-        if (isGameOver()) {
+        if (MainActivity.lives == 0) {
             // TODO: Show game over message/Handle game over
-
-
-
-            resetGame()
+            // resetGame()
             updateImage()
         }
     }
 
     private fun getImageResource(): Int {
-        return when (incorrectGuesses) {
-            0 -> R.drawable.hangman_0
-            1 -> R.drawable.hangman_1
-            2 -> R.drawable.hangman_2
-            3 -> R.drawable.hangman_3
-            4 -> R.drawable.hangman_4
-            5 -> R.drawable.hangman_5
-            6 -> R.drawable.hangman_6
+
+        return when (MainActivity.lives) {
+            7 -> R.drawable.hangman_0
+            6 -> R.drawable.hangman_1
+            5 -> R.drawable.hangman_2
+            4 -> R.drawable.hangman_3
+            3 -> R.drawable.hangman_4
+            2 -> R.drawable.hangman_5
+            1 -> R.drawable.hangman_6
             else -> R.drawable.hangman_0
         }
     }
 
-
-
-    private fun onWrongGuess() {
-        incorrectGuesses++
-        if (incorrectGuesses > 6) {
-            resetGame()
-        }
-    }
     private fun resetGame() {
-        incorrectGuesses = 0
+        MainActivity.textViewIndices = mutableListOf<Int>()
     }
 
-    private fun isGameOver(): Boolean {
-        return incorrectGuesses > 6
-    }
 }

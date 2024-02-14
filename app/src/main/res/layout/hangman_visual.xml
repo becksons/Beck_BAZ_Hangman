@@ -8,19 +8,99 @@
         android:id="@+id/hangmanImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="30dp"
         android:contentDescription="@string/todo"
-        android:paddingTop="100dp"
+
+        android:paddingTop="50dp"
+        android:paddingStart="100dp"
         android:scaleX="1.5"
         android:scaleY="1.5"
-        android:src="@drawable/hangman_0"
-        android:layout_gravity="center" />
+        android:src="@drawable/hangman_0" />
 
-    <Button
-        android:id="@+id/btnIncorrectGuess"
+
+
+<!--    <Button-->
+<!--        android:id="@+id/btnIncorrectGuess"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="80dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:text="@string/wrong_guess" />-->
+
+    <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:layout_gravity="center"
-        android:text="@string/wrong_guess" />
+        android:layout_margin="30dp"
+        android:columnCount="5"
+        android:rowCount="1">
+        <TextView
+            android:id="@+id/LetterOne"
 
-</LinearLayout>
+            android:layout_width="50dp"
+            android:layout_height = "wrap_content"
+            android:layout_column="0"
+
+            android:textSize="35sp"
+
+            android:text="__"
+
+
+            />
+        <TextView
+            android:id="@+id/LetterTwo"
+
+
+            android:layout_width="50dp"
+            android:layout_height = "wrap_content"
+            android:layout_column="1"
+            android:textSize="35sp"
+
+            android:text="__"
+            />
+        <TextView
+            android:id="@+id/LetterThree"
+            android:layout_width="50dp"
+            android:layout_height = "wrap_content"
+            android:layout_column="2"
+            android:textSize="35sp"
+
+            android:text="__"
+            />
+        <TextView
+            android:id="@+id/LetterFour"
+            android:layout_width="50dp"
+            android:layout_height = "wrap_content"
+            android:layout_column="3"
+            android:textSize="35sp"
+
+            android:text="__" />
+        <TextView
+            android:id="@+id/LetterFive"
+            android:layout_width="50dp"
+            android:layout_height = "wrap_content"
+            android:layout_column="4"
+            android:textSize="35sp"
+
+            android:text="__" />
+
+
+
+
+        </GridLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:text = "Choose a Letter">
+
+    </TextView>
+
+
+
+    </LinearLayout>
+
+
