@@ -70,17 +70,25 @@ class ButtonLogic : Fragment() {
                 val button = buttonView as Button
                 val buttonText = button.text.toString().lowercase().first()
                 val currentWord = MainActivity.word_bank[MainActivity.current_word].toCharArray()
+                var guessRight :Boolean = false
 
                 button.isClickable = false
                 button.visibility = View.GONE // BYE
                 for(charIdx in currentWord.indices){
                     if(buttonText == currentWord[charIdx] ){
                         MainActivity.textViewIndices.add(charIdx)
+                        guessRight = true
+
                     }
                 }
                 println("Current Index Array Global:" + MainActivity.textViewIndices)
+                if(!guessRight){
+                    hangmanFragment?.handleWrongGuess()
+                }else{
+                    hangmanFragment?.handleCorrectGuess()
 
-                hangmanFragment?.handleCorrectGuess()
+                }
+
             }
         }
 

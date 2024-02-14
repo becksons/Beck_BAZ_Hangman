@@ -1,5 +1,6 @@
 package com.example.beck_baz_hangman
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ class HangmanFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.hangman_visual, container, false)
+
         fragmentView = view
 
         hangmanImageView = view.findViewById(R.id.hangmanImageView)
@@ -58,7 +60,7 @@ class HangmanFragment : Fragment() {
                 if (charIdx in wordIndex) {
                     val char: Char = currentWord[charIdx]
 
-                    println(charIdx)
+                    println("Char index:" + charIdx)
 
                     when(charIdx) {
                         0 -> {
@@ -82,15 +84,25 @@ class HangmanFragment : Fragment() {
         }
     }
 
+    fun handleGameOver(){
+        fragmentView?.let { view ->
+            val textDisplay = view.findViewById<TextView>(R.id.textDisplay)
+            textDisplay.setText("Game over!")
 
+
+            }
+        resetGame()
+
+
+    }
     fun handleWrongGuess() {
-        println(MainActivity.lives)
+        println("Lives:" + MainActivity.lives)
         MainActivity.lives -= 1
         updateImage()
-        if (MainActivity.lives == 0) {
+        if (MainActivity.lives == 1) {
             // TODO: Show game over message/Handle game over
             // resetGame()
-            updateImage()
+            handleGameOver()
         }
     }
 
@@ -110,6 +122,7 @@ class HangmanFragment : Fragment() {
 
     private fun resetGame() {
         MainActivity.textViewIndices = mutableListOf<Int>()
+
     }
 
 }

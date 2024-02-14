@@ -6,58 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_graphics"
+        android:name="com.example.beck_baz_hangman.HangmanFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+
+        app:layout_constraintEnd_toStartOf="@+id/vertical_button_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/hangman_visual" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/vertical_button_view"
+        android:name="com.example.beck_baz_hangman.ButtonLogicLand"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="46dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_graphics"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/vertical_buttons" />
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/vertical_button_view"
-                android:name="com.example.beck_baz_hangman.ButtonLogicLand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout="@layout/vertical_buttons" />
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragment_hint"
-                android:name="com.example.beck_baz_hangman.PanelTwoFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout="@layout/fragment_panel_two" />
-
-
-        </LinearLayout>
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_graphics"
-            android:name="com.example.beck_baz_hangman.HangmanFragment"
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            tools:layout="@layout/hangman_visual" />
-
-
-    </LinearLayout>
-
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_hint"
+        android:name="com.example.beck_baz_hangman.PanelTwoFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/vertical_button_view"
+        app:layout_constraintStart_toStartOf="@id/vertical_button_view"
+        app:layout_constraintTop_toBottomOf="@id/vertical_button_view"
+        tools:layout="@layout/fragment_panel_two" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
