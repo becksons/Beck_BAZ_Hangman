@@ -9,36 +9,31 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_graphics"
         android:name="com.example.beck_baz_hangman.HangmanFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-        app:layout_constraintEnd_toStartOf="@+id/vertical_button_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/hangman_visual" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/vertical_button_view"
-        android:name="com.example.beck_baz_hangman.ButtonLogicLand"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fragment_graphics"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/vertical_buttons" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_hint"
         android:name="com.example.beck_baz_hangman.PanelTwoFragment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/vertical_button_view"
-        app:layout_constraintStart_toStartOf="@id/vertical_button_view"
-        app:layout_constraintTop_toBottomOf="@id/vertical_button_view"
+        android:layout_width="782dp"
+        android:layout_height="391dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39"
         tools:layout="@layout/fragment_panel_two" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/vertical_button_view"
+        android:name="com.example.beck_baz_hangman.ButtonLogicLand"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout="@layout/vertical_buttons" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

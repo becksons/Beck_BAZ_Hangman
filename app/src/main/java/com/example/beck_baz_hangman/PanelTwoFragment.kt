@@ -9,9 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.example.beck_baz_hangman.MainActivity.Companion.disable_half
-import com.example.beck_baz_hangman.MainActivity.Companion.disable_vowels
-import com.example.beck_baz_hangman.MainActivity.Companion.show_vowels
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,19 +52,90 @@ class PanelTwoFragment : Fragment() {
 
         button.setOnClickListener {_ ->
             buttonCount += 1
-            if (MainActivity.lives == 1){
+            if (buttonCount == 1) {
+                textView.visibility = View.VISIBLE
+            } else if (MainActivity.lives <= 2) {
                 val zero = Toast.makeText(requireContext(), "Hint not available", Toast.LENGTH_SHORT)
                 zero.show()
-            } else if (buttonCount == 1) {
-                textView.visibility = View.VISIBLE
             } else if (buttonCount == 2) {
-                disable_half = true
+                val buttonMasterList = arrayListOf<Char>(
+                    'a', 'b', 'c', 'd', 'e', 'f',
+                    'g', 'h', 'i', 'j', 'k', 'l',
+                    'm', 'n', 'o', 'p', 'q', 'r',
+                    's', 't', 'u', 'v', 'w', 'x',
+                    'y', 'z'
+                )
+
+                val cap: Int = (26 - MainActivity.disabled_buttons.size) / 2
+                var counter: Int = 0
+                val word = MainActivity.word_bank[MainActivity.current_word]
+
+                for (charBtn in buttonMasterList) {
+                    if (counter == cap) {
+                        break
+                    }
+
+                    if (charBtn !in word && charBtn.uppercaseChar() !in MainActivity.disabled_buttons) {
+                        MainActivity.disabled_buttons.add(charBtn.uppercaseChar())
+                        counter += 1
+                    }
+                }
                 MainActivity.lives -= 1
+
+                // Render the now disabled buttons
+                MainActivity.horz_buttons.forEach {btn ->
+                    if (btn.text.toString().first() in MainActivity.disabled_buttons) {
+                        btn.visibility = View.GONE // BYE
+                    }
+                }
+
+                MainActivity.vert_buttons.forEach {btn ->
+                    if (btn.text.toString().first() in MainActivity.disabled_buttons) {
+                        btn.visibility = View.GONE // BYE
+                    }
+                }
             } else if (buttonCount == 3) {
-                show_vowels = true
-                disable_vowels = true
+                val buttonMasterList = arrayListOf<Char>(
+                    'a', 'e', 'i', 'o', 'u'
+                )
+                val word = MainActivity.word_bank[MainActivity.current_word].toCharArray()
+                for (charBtn in buttonMasterList) {
+                    if (charBtn.uppercaseChar() !in MainActivity.disabled_buttons) {
+                        MainActivity.disabled_buttons.add(charBtn.uppercaseChar())
+                    }
+
+                    for (charIdx in word.indices) {
+                        val character = word[charIdx]
+                        if (character == charBtn) {
+                            MainActivity.textViewIndices.add(charIdx)
+                        }
+                    }
+                }
+
+                // Render the now disabled buttons
+                MainActivity.horz_buttons.forEach {btn ->
+                    if (btn.text.toString().first() in MainActivity.disabled_buttons) {
+                        btn.visibility = View.GONE // BYE
+                    }
+                }
+
+                MainActivity.vert_buttons.forEach {btn ->
+                    if (btn.text.toString().first() in MainActivity.disabled_buttons) {
+                        btn.visibility = View.GONE // BYE
+                    }
+                }
+
+                // Render the correct vowels
+                (activity as? MainActivity)?.updateVowels()
                 MainActivity.lives -= 1
+            }else {
+                val zero = Toast.makeText(requireContext(), "Out of hints", Toast.LENGTH_SHORT)
+                zero.show()
             }
+
+
+            // Update the image
+            (activity as? MainActivity)?.updateGraphics()
         }
     }
 

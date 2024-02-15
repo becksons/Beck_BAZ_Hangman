@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 
 class HangmanFragment : Fragment() {
     private lateinit var hangmanImageView: ImageView
@@ -19,37 +20,36 @@ class HangmanFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.hangman_visual, container, false)
 
-        fragmentView = view
+        val resetButton = view.findViewById<Button>(R.id.Reset)
+        val newGameButton = view.findViewById<Button>(R.id.NewGame)
 
+        resetButton.setOnClickListener {
+            (activity as? MainActivity)?.startOver(false)
+        }
+
+        newGameButton.setOnClickListener {
+            (activity as? MainActivity)?.startOver(true)
+        }
+
+        fragmentView = view
         hangmanImageView = view.findViewById(R.id.hangmanImageView)
-//        btnIncorrectGuess = view.findViewById(R.id.btnIncorrectGuess)
-//
-//        btnIncorrectGuess.setOnClickListener {
-//            handleWrongGuess()
-//        }
 
         if (savedInstanceState != null) {
             updateImage()
         }
 
+        if(MainActivity.lives <= 1){
+            handleGameOver()
+        }
+        handleCorrectGuess()
         return view
     }
 
 
-    private fun updateImage() {
+    fun updateImage() {
         hangmanImageView.setImageResource(android.R.color.transparent)
-
         hangmanImageView.setImageResource(getImageResource())
-
-
-
     }
-
-//Asked chatGPT what method to save the state of my fragment if the phone changes layout, back button is hit, etc..
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
-
 
      fun handleCorrectGuess(){
         fragmentView?.let { view ->
@@ -59,8 +59,6 @@ class HangmanFragment : Fragment() {
             for(charIdx in currentWord.indices){
                 if (charIdx in wordIndex) {
                     val char: Char = currentWord[charIdx]
-
-                    println("Char index:" + charIdx)
 
                     when(charIdx) {
                         0 -> {
@@ -81,27 +79,64 @@ class HangmanFragment : Fragment() {
                     }
                 }
             }
+
+            if (MainActivity.textViewIndices.size == 5) {
+                handleGameWin()
+            }
         }
     }
 
-    fun handleGameOver(){
+    private fun handleGameWin() {
+        // Disable all the Buttons
+        MainActivity.disabled_buttons = mutableListOf(
+            'A', 'B', 'C', 'D', 'E', 'F',
+            'G', 'H', 'I', 'J', 'K', 'L',
+            'M', 'N', 'O', 'P', 'Q', 'R',
+            'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z'
+        )
+
+        MainActivity.horz_buttons.forEach {btn ->
+            btn.visibility = View.GONE // BYE
+        }
+
+        MainActivity.vert_buttons.forEach {btn ->
+            btn.visibility = View.GONE // BYE
+        }
+
+        fragmentView?.let { view ->
+            val textDisplay = view.findViewById<TextView>(R.id.textDisplay)
+            textDisplay.setText("You Won!")
+        }
+    }
+    private fun handleGameOver(){
+        // Disable all the Buttons
+        MainActivity.disabled_buttons = mutableListOf(
+            'A', 'B', 'C', 'D', 'E', 'F',
+            'G', 'H', 'I', 'J', 'K', 'L',
+            'M', 'N', 'O', 'P', 'Q', 'R',
+            'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z'
+        )
+
+        MainActivity.horz_buttons.forEach {btn ->
+            btn.visibility = View.GONE // BYE
+        }
+
+        MainActivity.vert_buttons.forEach {btn ->
+            btn.visibility = View.GONE // BYE
+        }
+
         fragmentView?.let { view ->
             val textDisplay = view.findViewById<TextView>(R.id.textDisplay)
             textDisplay.setText("Game over!")
-
-
-            }
-        resetGame()
-
-
+        }
     }
     fun handleWrongGuess() {
         println("Lives:" + MainActivity.lives)
         MainActivity.lives -= 1
         updateImage()
         if (MainActivity.lives == 1) {
-            // TODO: Show game over message/Handle game over
-            // resetGame()
             handleGameOver()
         }
     }
@@ -120,8 +155,11 @@ class HangmanFragment : Fragment() {
         }
     }
 
+
     private fun resetGame() {
-        MainActivity.textViewIndices = mutableListOf<Int>()
+        MainActivity.disabled_buttons = mutableListOf<Char>() // We reset the disable buttons
+        MainActivity.textViewIndices = mutableListOf<Int>() // Clear rendering for words
+        MainActivity.lives = 7 // Restore lives
 
     }
 

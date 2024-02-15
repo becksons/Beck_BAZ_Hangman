@@ -1,6 +1,7 @@
 package com.example.beck_baz_hangman
 
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -63,7 +64,16 @@ class ButtonLogicLand : Fragment() {
             letterU, letterV, letterW, letterX, letterY,
             letterZ
         )
-        println("Current Word:" + MainActivity.word_bank[MainActivity.current_word])
+
+        MainActivity.horz_buttons = btnList
+
+        // We loop to disable any buttons
+        for (btn in btnList) {
+            val buttonText = btn.text.toString().first()
+            if (buttonText in MainActivity.disabled_buttons) {
+                btn.visibility = View.GONE // BYE
+            }
+        }
 
         for (btn in btnList) {
             btn.setOnClickListener(){ buttonView ->
@@ -74,13 +84,16 @@ class ButtonLogicLand : Fragment() {
 
                 button.isClickable = false
                 button.visibility = View.GONE // BYE
+
+                // Add the disabled char to a global state
+                MainActivity.disabled_buttons.add(button.text.toString().first())
+
                 for(charIdx in currentWord.indices){
                     if(buttonText == currentWord[charIdx] ){
                         MainActivity.textViewIndices.add(charIdx)
                         guessRight = true
                     }
                 }
-                println("Current Index Array Global:" + MainActivity.textViewIndices)
 
                 if (!guessRight) {
                     hangmanFragment?.handleWrongGuess() // Wrong Path
@@ -91,11 +104,6 @@ class ButtonLogicLand : Fragment() {
         }
 
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     companion object {
